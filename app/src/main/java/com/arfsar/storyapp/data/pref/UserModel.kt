@@ -1,4 +1,7 @@
 package com.arfsar.storyapp.data.pref
 
-class UserModel {
-}
+class UserModel (
+    val email: String,
+    val token: String,
+    val isLogin: Boolean = false
+)
