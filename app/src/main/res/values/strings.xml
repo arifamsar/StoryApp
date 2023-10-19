@@ -3,4 +3,16 @@
     <string name="content_description_media">The picture from list story</string>
     <string name="title">Story Title</string>
     <string name="description">This is description</string>
+    <string name="welcome_title">Welcome to Story App</string>
+    <string name="description_welcome">Anda ingin membagikan cerita tentang hal-hal yang berbau teknologi? Anda wajib menggunakan Story App ini agar teman-teman kalian dapat melihat!</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="name">Name</string>
+    <string name="content_description_register">Image of layout register</string>
+    <string name="email">Email</string>
+    <string name="title_signup">Please fill up your data</string>
+    <string name="password">Password</string>
+    <string name="content_description_login">Layout Image of Login</string>
+    <string name="title_login">Filled up your account first below</string>
+    <string name="content_description_welcome">Image of layout Welcome Activity</string>
 </resources>
