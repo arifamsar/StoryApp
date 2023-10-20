@@ -48,18 +48,4 @@ class PasswordEditText : AppCompatEditText {
         })
     }
 
-//    private fun setButtonDrawables(
-//        startOfTheText: Drawable? = null,
-//        topOfTheText: Drawable? = null,
-//        endOfTheText: Drawable? = null,
-//        bottomOfTheText: Drawable? = null
-//    ) {
-//        setCompoundDrawablesWithIntrinsicBounds(
-//            startOfTheText,
-//            topOfTheText,
-//            endOfTheText,
-//            bottomOfTheText
-//        )
-//    }
-
 }
