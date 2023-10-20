@@ -37,9 +37,21 @@ class SignUpActivity : AppCompatActivity() {
             val password = binding.passwordEditText.text.toString()
 
             when {
-                name.isEmpty() -> error("Name can't be empty")
-                email.isEmpty() -> error("Email can't be empty")
-                password.isEmpty() -> error("Password can't be empty")
+                name.isEmpty() -> {
+                    binding.nameEditText.error = "Name can't be empty"
+                    binding.nameEditText.requestFocus()
+                    return@setOnClickListener
+                }
+                email.isEmpty() -> {
+                    binding.emailEditText.error = "Email can't be empty"
+                    binding.emailEditText.requestFocus()
+                    return@setOnClickListener
+                }
+                password.isEmpty() -> {
+                    binding.passwordEditText.error = "Password can't be empty"
+                    binding.passwordEditText.requestFocus()
+                    return@setOnClickListener
+                }
                 else -> register(name, email, password)
             }
         }
@@ -91,9 +103,17 @@ class SignUpActivity : AppCompatActivity() {
         val button = ObjectAnimator.ofFloat(binding.bvRegister, View.ALPHA, 1f).setDuration(500)
         val title = ObjectAnimator.ofFloat(binding.titleSignUp, View.ALPHA, 1f).setDuration(500)
 
-
+        val name = AnimatorSet().apply {
+            playTogether(textName, textEditName)
+        }
+        val email = AnimatorSet().apply {
+            playTogether(textEmail, textEditEmail)
+        }
+        val password = AnimatorSet().apply {
+            playTogether(textPassword, textEditPassword)
+        }
         AnimatorSet().apply {
-            playSequentially(title, textName, textEditName, textEmail, textEditEmail, textPassword, textEditPassword, button)
+            playSequentially(title, name, email, password, button)
             start()
         }
     }
