@@ -10,6 +10,7 @@ import com.arfsar.storyapp.R
 import com.arfsar.storyapp.data.ResultState
 import com.arfsar.storyapp.data.response.ListStoryItem
 import com.arfsar.storyapp.databinding.ActivityMainBinding
+import com.arfsar.storyapp.ui.AddStoryActivity
 import com.arfsar.storyapp.ui.ViewModelFactory
 import com.arfsar.storyapp.ui.adapter.StoryAdapter
 import com.arfsar.storyapp.ui.welcome.WelcomeActivity
@@ -32,6 +33,9 @@ class MainActivity : AppCompatActivity() {
         logout()
         getStories()
 
+        binding.fabAddStory.setOnClickListener {
+            startActivity(Intent(this, AddStoryActivity::class.java))
+        }
     }
 
     private fun loginCheck() {

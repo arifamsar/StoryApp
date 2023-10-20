@@ -18,4 +18,7 @@
     <string name="logout">logout</string>
     <string name="content_description_fab">Add Story Button</string>
     <string name="list_story">List Story</string>
+    <string name="camera_button">Camera</string>
+    <string name="gallery_button">Gallery</string>
+    <string name="upload_button">Upload</string>
 </resources>
