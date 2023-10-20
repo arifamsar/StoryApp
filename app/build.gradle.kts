@@ -46,13 +46,12 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
-    // retrofit
     val retrofitVersion = "2.9.0"
+    implementation("com.loopj.android:android-async-http:1.4.11")
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
-    // lifeCycle ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.activity:activity-ktx:1.8.0")

@@ -2,15 +2,25 @@ package com.arfsar.storyapp.ui.signup
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.arfsar.storyapp.data.ResultState
 import com.arfsar.storyapp.databinding.ActivitySignUpBinding
+import com.arfsar.storyapp.ui.ViewModelFactory
+import com.arfsar.storyapp.ui.login.LoginActivity
 
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
+
+    private val viewModel by viewModels<SignUpViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
@@ -24,15 +34,43 @@ class SignUpActivity : AppCompatActivity() {
         binding.bvRegister.setOnClickListener {
             val name = binding.nameEditText.text.toString()
             val email = binding.emailEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
 
-            AlertDialog.Builder(this).apply {
-                setTitle("Congrats!")
-                setMessage("Your account $name with $email has been created, next login and create your own story")
-                setPositiveButton("Next") { _, _ ->
-                    finish()
+            when {
+                name.isEmpty() -> error("Name can't be empty")
+                email.isEmpty() -> error("Email can't be empty")
+                password.isEmpty() -> error("Password can't be empty")
+                else -> register(name, email, password)
+            }
+        }
+    }
+
+    private fun register(name: String, email: String, password: String) {
+        viewModel.register(name, email, password).observe(this) { result ->
+            if (result != null) {
+                when(result){
+                    is ResultState.Loading -> {
+                        showLoading(true)
+                    }
+                    is ResultState.Success -> {
+                        showLoading(false)
+                        AlertDialog.Builder(this).apply {
+                            setTitle("Congrats!")
+                            setMessage(result.data.toString())
+                            setPositiveButton("Next") { _, _ ->
+                                val intent = Intent(context, LoginActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+                            create()
+                            show()
+                        }
+                    }
+                    is ResultState.Error -> {
+                        Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
+                        showLoading(false)
+                    }
                 }
-                create()
-                show()
             }
         }
     }
@@ -58,5 +96,9 @@ class SignUpActivity : AppCompatActivity() {
             playSequentially(title, textName, textEditName, textEmail, textEditEmail, textPassword, textEditPassword, button)
             start()
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) binding.progressBar.visibility = View.VISIBLE else binding.progressBar.visibility = View.GONE
     }
 }

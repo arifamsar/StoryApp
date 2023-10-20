@@ -8,10 +8,12 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.arfsar.storyapp.data.ResultState
 import com.arfsar.storyapp.data.pref.UserModel
 import com.arfsar.storyapp.databinding.ActivityLoginBinding
 import com.arfsar.storyapp.ui.ViewModelFactory
 import com.arfsar.storyapp.ui.main.MainActivity
+import com.arfsar.storyapp.ui.utils.Extra.EXTRA_TOKEN
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -31,18 +33,43 @@ class LoginActivity : AppCompatActivity() {
     private fun setupAction() {
         binding.bvLogin.setOnClickListener {
             val email = binding.emailEditText.text.toString()
-            viewModel.saveSession(UserModel(email, "sample_token" ))
-            AlertDialog.Builder(this).apply {
-                setTitle("Congrats!")
-                setMessage("Login Succesful")
-                setPositiveButton("Next") { _, _, ->
-                    val intent = Intent(context, MainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-                    finish()
+            val password = binding.passwordEditText.text.toString()
+
+            when {
+                email.isEmpty() -> error("Email can't be empty")
+                password.isEmpty() -> error("Password can't be empty")
+                else -> login(email, password)
+            }
+        }
+    }
+
+    private fun login(email: String, password: String) {
+        viewModel.login(email, password).observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is ResultState.Loading -> {
+                        showLoading(true)
+                    }
+                    is ResultState.Success -> {
+                        viewModel.saveSessionToken(UserModel(email, result.data.loginResult.token))
+                        showLoading(false)
+                        AlertDialog.Builder(this).apply {
+                            setTitle("Congrats!")
+                            setMessage(result.data.message)
+                            setPositiveButton("Next") { _, _, ->
+                                val intent = Intent(context, MainActivity::class.java)
+                                intent.putExtra(EXTRA_TOKEN, result.data.loginResult.token)
+                                startActivity(intent)
+                                finish()
+                            }
+                            create()
+                            show()
+                        }
+                    }
+                    is ResultState.Error -> {
+                        showLoading(false)
+                    }
                 }
-                create()
-                show()
             }
         }
     }
@@ -66,5 +93,9 @@ class LoginActivity : AppCompatActivity() {
             playSequentially(title, textEmail, textEditEmail, textPassword, textEditPassword, button)
             start()
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) binding.progressBar.visibility = View.VISIBLE else binding.progressBar.visibility = View.GONE
     }
 }
