@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/iv_story"
             android:layout_width="match_parent"
-            android:layout_height="193dp"
+            android:layout_height="180dp"
             android:contentDescription="@string/content_description_media"
             android:scaleType="centerCrop"
             tools:src="@tools:sample/backgrounds/scenic" />

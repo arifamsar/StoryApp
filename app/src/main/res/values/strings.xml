@@ -15,4 +15,7 @@
     <string name="content_description_login">Layout Image of Login</string>
     <string name="title_login">Filled up your account first below</string>
     <string name="content_description_welcome">Image of layout Welcome Activity</string>
+    <string name="logout">logout</string>
+    <string name="content_description_fab">Add Story Button</string>
+    <string name="list_story">List Story</string>
 </resources>
