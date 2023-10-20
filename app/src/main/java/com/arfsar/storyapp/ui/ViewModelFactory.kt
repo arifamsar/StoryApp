@@ -3,27 +3,30 @@ package com.arfsar.storyapp.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.arfsar.storyapp.data.UserRepository
+import com.arfsar.storyapp.data.repository.UserRepository
 import com.arfsar.storyapp.data.di.Injection
+import com.arfsar.storyapp.data.repository.StoryRepository
 import com.arfsar.storyapp.ui.login.LoginViewModel
 import com.arfsar.storyapp.ui.main.MainViewModel
 import com.arfsar.storyapp.ui.signup.SignUpViewModel
 
 @Suppress("UNCHECKED_CAST")
-class ViewModelFactory(private val repository: UserRepository) :
-    ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory(
+    private val userRepository: UserRepository,
+    private val storyRepository: StoryRepository
+) : ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
-                MainViewModel(repository) as T
+                MainViewModel(userRepository, storyRepository) as T
             }
 
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
-                LoginViewModel(repository) as T
+                LoginViewModel(userRepository) as T
             }
 
             modelClass.isAssignableFrom(SignUpViewModel::class.java) -> {
-                SignUpViewModel(repository) as T
+                SignUpViewModel(userRepository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
@@ -37,7 +40,10 @@ class ViewModelFactory(private val repository: UserRepository) :
         @JvmStatic
         fun getInstance(context: Context): ViewModelFactory =
             INSTANCE ?: synchronized(this) {
-                INSTANCE ?: ViewModelFactory(Injection.provideRepository(context))
+                INSTANCE ?: ViewModelFactory(
+                    Injection.provideRepository(context),
+                    Injection.provideStoryRepository(context)
+                )
             }.also {
                 INSTANCE = it
             }

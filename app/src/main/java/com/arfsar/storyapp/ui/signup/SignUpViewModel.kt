@@ -3,7 +3,7 @@ package com.arfsar.storyapp.ui.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.arfsar.storyapp.data.ResultState
-import com.arfsar.storyapp.data.UserRepository
+import com.arfsar.storyapp.data.repository.UserRepository
 import com.arfsar.storyapp.data.response.RegisterResponse
 
 class SignUpViewModel(private val repository: UserRepository) : ViewModel() {

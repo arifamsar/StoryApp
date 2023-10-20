@@ -1,7 +1,8 @@
-package com.arfsar.storyapp.data
+package com.arfsar.storyapp.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import com.arfsar.storyapp.data.ResultState
 import com.arfsar.storyapp.data.api.ApiService
 import com.arfsar.storyapp.data.pref.UserModel
 import com.arfsar.storyapp.data.pref.UserPreference

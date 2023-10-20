@@ -2,7 +2,7 @@ package com.arfsar.storyapp.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.arfsar.storyapp.data.UserRepository
+import com.arfsar.storyapp.data.repository.UserRepository
 import com.arfsar.storyapp.data.pref.UserModel
 import kotlinx.coroutines.launch
 
