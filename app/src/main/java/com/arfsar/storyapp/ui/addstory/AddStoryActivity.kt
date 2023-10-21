@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.arfsar.storyapp.R
 import com.arfsar.storyapp.data.ResultState
 import com.arfsar.storyapp.databinding.ActivityAddStoryBinding
 import com.arfsar.storyapp.ui.ViewModelFactory
@@ -110,7 +111,7 @@ class AddStoryActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
+        } ?: Toast.makeText(this, getString(R.string.empty_image_warning), Toast.LENGTH_SHORT).show()
     }
 
     private fun showLoading(isLoading: Boolean) {
