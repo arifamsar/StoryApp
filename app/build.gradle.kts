@@ -46,6 +46,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.exifinterface:exifinterface:1.3.6")
 
     val retrofitVersion = "2.9.0"
     implementation("com.loopj.android:android-async-http:1.4.11")

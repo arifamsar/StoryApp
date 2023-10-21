@@ -2,7 +2,7 @@ package com.arfsar.storyapp.data.response
 
 import com.google.gson.annotations.SerializedName
 
-data class FileUploadResponse(
+data class StoryUploadResponse(
 
     @field:SerializedName("error")
     val error: Boolean,

@@ -20,7 +20,7 @@ object Injection {
 
     fun provideStoryRepository(context: Context) : StoryRepository {
         val userPref = UserPreference.getInstance(context.dataStore)
-        return StoryRepository.getInstance(ApiConfig.getApiService(), userPref)
+        return StoryRepository.getInstance(userPref)
     }
 
 }
