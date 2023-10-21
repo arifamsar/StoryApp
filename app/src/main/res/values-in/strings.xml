@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">StoryApp</string>
     <string name="content_description_media">Gambar dari list cerita</string>
-    <string name="title">Judul Story</string>
+    <string name="title">Nama Pembuat</string>
     <string name="description">Deskripsi</string>
     <string name="welcome_title">Selamat datang di Aplikasi Story</string>
     <string name="description_welcome">Anda ingin membagikan cerita tentang teknologi? Anda wajib menggunakan Story App ini agar teman-teman kalian dapat melihat!</string>

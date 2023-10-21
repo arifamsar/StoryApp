@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">StoryApp</string>
     <string name="content_description_media">The picture from list story</string>
-    <string name="title">Story Title</string>
+    <string name="title">Creator Name</string>
     <string name="description">Description</string>
     <string name="welcome_title">Welcome to Story App</string>
     <string name="description_welcome">Do you want to share stories related to technology? You must use this Story App so your friends can see!</string>
