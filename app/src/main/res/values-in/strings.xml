@@ -23,4 +23,7 @@
     <string name="gallery_button">Galeri</string>
     <string name="upload_button">Unggah</string>
     <string name="empty_image_warning">Silakan masukkan berkas gambar terlebih dahulu.</string>
+    <string name="story_empty">Story tidak jumpa</string>
+    <string name="logout_reminder">Apakah kamu yakin untuk keluar?</string>
+    <string name="cancel">Tidak</string>
 </resources>

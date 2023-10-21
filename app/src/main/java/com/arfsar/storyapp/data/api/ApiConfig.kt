@@ -1,6 +1,6 @@
 package com.arfsar.storyapp.data.api
 
-import com.arfsar.storyapp.BuildConfig
+import com.loopj.android.http.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -9,12 +9,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiConfig {
     companion object {
-        fun getApiService(token: String): ApiService {
-            val loggingInterceptor = if (BuildConfig.DEBUG) {
+        fun getApiService(token: String? = null): ApiService {
+            val loggingInterceptor =
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-            } else {
-                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
-            }
             val authInterceptor = Interceptor { chain ->
                 val req = chain.request()
                 val requestHeaders = req.newBuilder()

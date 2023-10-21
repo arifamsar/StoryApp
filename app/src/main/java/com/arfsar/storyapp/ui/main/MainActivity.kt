@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,7 +38,6 @@ class MainActivity : AppCompatActivity() {
 
         loginCheck()
         logout()
-        getStories()
 
         binding.fabAddStory.setOnClickListener {
             startActivity(Intent(this, AddStoryActivity::class.java))
@@ -49,6 +49,9 @@ class MainActivity : AppCompatActivity() {
             if (!user.isLogin) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
+            } else {
+                getStories()
+
             }
         }
     }
@@ -57,7 +60,18 @@ class MainActivity : AppCompatActivity() {
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.logOut -> {
-                    viewModel.logout()
+                    AlertDialog.Builder(this).apply {
+                        setTitle(getString(R.string.logout))
+                        setMessage(getString(R.string.logout_reminder))
+                        setPositiveButton(getString(R.string.logout)) { _, _ ->
+                            viewModel.logout()
+                        }
+                        setNegativeButton(getString(R.string.cancel)) { _, _ ->
+                            // Do Nothing
+                        }
+                        create()
+                        show()
+                    }
                     true
                 }
 
@@ -73,9 +87,11 @@ class MainActivity : AppCompatActivity() {
                     is ResultState.Loading -> {
                         showLoading(true)
                     }
+
                     is ResultState.Success -> {
                         setupRecyclerView()
                         setupViewModel(result.data.listStory)
+                        showLoading(false)
                     }
 
                     is ResultState.Error -> {
@@ -83,12 +99,14 @@ class MainActivity : AppCompatActivity() {
                         showLoading(false)
                     }
                 }
+            } else {
+                Toast.makeText(this, getString(R.string.story_empty), Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun setupRecyclerView() {
-        val mLayoutManager =  LinearLayoutManager(this)
+        val mLayoutManager = LinearLayoutManager(this)
         binding.rvListStory.apply {
             layoutManager = mLayoutManager
             setHasFixedSize(true)
@@ -119,7 +137,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        if (isLoading) binding.progressBar.visibility = View.VISIBLE else binding.progressBar.visibility = View.GONE
+        if (isLoading) binding.progressBar.visibility =
+            View.VISIBLE else binding.progressBar.visibility = View.GONE
     }
 
 }

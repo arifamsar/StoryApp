@@ -52,19 +52,6 @@ class UserRepository private constructor(
         }
     }
 
-//    suspend fun register(name: String, email: String, password: String): RegisterResponse {
-//        return apiService.registerUser(name, email, password)
-//    }
-//
-//    suspend fun login(email: String, password: String) {
-//        val client = apiService.loginUser(email, password)
-//        client.loginResult.token.let { saveSessionToken(it) }
-//    }
-
-//    suspend fun saveSessionToken(token: String) {
-//        userPreference.saveTokenSession(token)
-//    }
-
     suspend fun saveSession(user: UserModel) {
         userPreference.saveSession(user)
     }
