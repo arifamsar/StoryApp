@@ -85,10 +85,11 @@ class AddStoryActivity : AppCompatActivity() {
 
             viewModel.uploadStory(fileImage, description).observe(this) { result ->
                 if (result != null) {
-                    when(result) {
+                    when (result) {
                         is ResultState.Loading -> {
                             showLoading(true)
                         }
+
                         is ResultState.Success -> {
                             showLoading(false)
                             AlertDialog.Builder(this).apply {
@@ -96,7 +97,8 @@ class AddStoryActivity : AppCompatActivity() {
                                 setMessage(result.data.message)
                                 setPositiveButton("OK") { _, _ ->
                                     val intent = Intent(context, MainActivity::class.java)
-                                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                    intent.flags =
+                                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                     startActivity(intent)
                                     finish()
                                 }
@@ -104,6 +106,7 @@ class AddStoryActivity : AppCompatActivity() {
                                 show()
                             }
                         }
+
                         is ResultState.Error -> {
                             Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
                             showLoading(false)
@@ -111,11 +114,13 @@ class AddStoryActivity : AppCompatActivity() {
                     }
                 }
             }
-        } ?: Toast.makeText(this, getString(R.string.empty_image_warning), Toast.LENGTH_SHORT).show()
+        } ?: Toast.makeText(this, getString(R.string.empty_image_warning), Toast.LENGTH_SHORT)
+            .show()
     }
 
     private fun showLoading(isLoading: Boolean) {
-        if (isLoading) binding.progressBar.visibility = View.VISIBLE else binding.progressBar.visibility = View.GONE
+        if (isLoading) binding.progressBar.visibility =
+            View.VISIBLE else binding.progressBar.visibility = View.GONE
     }
 
 }

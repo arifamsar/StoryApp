@@ -41,7 +41,8 @@ class WelcomeActivity : AppCompatActivity() {
         val login = ObjectAnimator.ofFloat(binding.bvLogin, View.ALPHA, 1f).setDuration(500)
         val signup = ObjectAnimator.ofFloat(binding.bvRegister, View.ALPHA, 1f).setDuration(500)
         val title = ObjectAnimator.ofFloat(binding.tvTitleWelcome, View.ALPHA, 1f).setDuration(500)
-        val desc = ObjectAnimator.ofFloat(binding.tvDescriptionWelcome, View.ALPHA, 1f).setDuration(500)
+        val desc =
+            ObjectAnimator.ofFloat(binding.tvDescriptionWelcome, View.ALPHA, 1f).setDuration(500)
 
         val together = AnimatorSet().apply {
             playTogether(login, signup)

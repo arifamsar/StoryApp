@@ -21,6 +21,7 @@ class SignUpActivity : AppCompatActivity() {
     private val viewModel by viewModels<SignUpViewModel> {
         ViewModelFactory.getInstance(this)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
@@ -42,16 +43,19 @@ class SignUpActivity : AppCompatActivity() {
                     binding.nameEditText.requestFocus()
                     return@setOnClickListener
                 }
+
                 email.isEmpty() -> {
                     binding.emailEditText.error = "Email can't be empty"
                     binding.emailEditText.requestFocus()
                     return@setOnClickListener
                 }
+
                 password.isEmpty() -> {
                     binding.passwordEditText.error = "Password can't be empty"
                     binding.passwordEditText.requestFocus()
                     return@setOnClickListener
                 }
+
                 else -> register(name, email, password)
             }
         }
@@ -60,10 +64,11 @@ class SignUpActivity : AppCompatActivity() {
     private fun register(name: String, email: String, password: String) {
         viewModel.register(name, email, password).observe(this) { result ->
             if (result != null) {
-                when(result){
+                when (result) {
                     is ResultState.Loading -> {
                         showLoading(true)
                     }
+
                     is ResultState.Success -> {
                         showLoading(false)
                         AlertDialog.Builder(this).apply {
@@ -78,6 +83,7 @@ class SignUpActivity : AppCompatActivity() {
                             show()
                         }
                     }
+
                     is ResultState.Error -> {
                         Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
                         showLoading(false)
@@ -96,10 +102,14 @@ class SignUpActivity : AppCompatActivity() {
 
         val textName = ObjectAnimator.ofFloat(binding.tvName, View.ALPHA, 1f).setDuration(500)
         val textEmail = ObjectAnimator.ofFloat(binding.tvEmail, View.ALPHA, 1f).setDuration(500)
-        val textPassword = ObjectAnimator.ofFloat(binding.tvPassword, View.ALPHA, 1f).setDuration(500)
-        val textEditName = ObjectAnimator.ofFloat(binding.nameInput, View.ALPHA, 1f).setDuration(500)
-        val textEditEmail = ObjectAnimator.ofFloat(binding.emailInput, View.ALPHA, 1f).setDuration(500)
-        val textEditPassword = ObjectAnimator.ofFloat(binding.passwordInput, View.ALPHA, 1f).setDuration(500)
+        val textPassword =
+            ObjectAnimator.ofFloat(binding.tvPassword, View.ALPHA, 1f).setDuration(500)
+        val textEditName =
+            ObjectAnimator.ofFloat(binding.nameInput, View.ALPHA, 1f).setDuration(500)
+        val textEditEmail =
+            ObjectAnimator.ofFloat(binding.emailInput, View.ALPHA, 1f).setDuration(500)
+        val textEditPassword =
+            ObjectAnimator.ofFloat(binding.passwordInput, View.ALPHA, 1f).setDuration(500)
         val button = ObjectAnimator.ofFloat(binding.bvRegister, View.ALPHA, 1f).setDuration(500)
         val title = ObjectAnimator.ofFloat(binding.titleSignUp, View.ALPHA, 1f).setDuration(500)
 
@@ -119,6 +129,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        if (isLoading) binding.progressBar.visibility = View.VISIBLE else binding.progressBar.visibility = View.GONE
+        if (isLoading) binding.progressBar.visibility =
+            View.VISIBLE else binding.progressBar.visibility = View.GONE
     }
 }

@@ -34,7 +34,7 @@ class DetailStoryActivity : AppCompatActivity() {
                     }
 
                     is ResultState.Success -> {
-                        getViewModel(result.data.story )
+                        getViewModel(result.data.story)
                         showLoading(false)
                     }
 
@@ -57,7 +57,6 @@ class DetailStoryActivity : AppCompatActivity() {
             tvDescription.text = story.description
         }
     }
-
 
 
     private fun showLoading(isLoading: Boolean) {

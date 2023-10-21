@@ -21,6 +21,7 @@ class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
         ViewModelFactory.getInstance(this)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -41,11 +42,13 @@ class LoginActivity : AppCompatActivity() {
                     binding.emailEditText.requestFocus()
                     return@setOnClickListener
                 }
+
                 password.isEmpty() -> {
                     binding.passwordEditText.error = "Password can't be empty"
                     binding.passwordEditText.requestFocus()
                     return@setOnClickListener
                 }
+
                 else -> login(email, password)
             }
         }
@@ -58,15 +61,17 @@ class LoginActivity : AppCompatActivity() {
                     is ResultState.Loading -> {
                         showLoading(true)
                     }
+
                     is ResultState.Success -> {
                         viewModel.saveSessionToken(UserModel(email, result.data.loginResult.token))
                         showLoading(false)
                         AlertDialog.Builder(this).apply {
                             setTitle("Congrats!")
                             setMessage(result.data.message)
-                            setPositiveButton("Next") { _, _, ->
+                            setPositiveButton("Next") { _, _ ->
                                 val intent = Intent(context, MainActivity::class.java)
-                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                 intent.putExtra(EXTRA_TOKEN, result.data.loginResult.token)
                                 startActivity(intent)
                                 finish()
@@ -75,6 +80,7 @@ class LoginActivity : AppCompatActivity() {
                             show()
                         }
                     }
+
                     is ResultState.Error -> {
                         showLoading(false)
                     }
@@ -91,9 +97,12 @@ class LoginActivity : AppCompatActivity() {
         }.start()
 
         val textEmail = ObjectAnimator.ofFloat(binding.tvEmail, View.ALPHA, 1f).setDuration(500)
-        val textPassword = ObjectAnimator.ofFloat(binding.tvPassword, View.ALPHA, 1f).setDuration(500)
-        val textEditEmail = ObjectAnimator.ofFloat(binding.emailInput, View.ALPHA, 1f).setDuration(500)
-        val textEditPassword = ObjectAnimator.ofFloat(binding.passwordInput, View.ALPHA, 1f).setDuration(500)
+        val textPassword =
+            ObjectAnimator.ofFloat(binding.tvPassword, View.ALPHA, 1f).setDuration(500)
+        val textEditEmail =
+            ObjectAnimator.ofFloat(binding.emailInput, View.ALPHA, 1f).setDuration(500)
+        val textEditPassword =
+            ObjectAnimator.ofFloat(binding.passwordInput, View.ALPHA, 1f).setDuration(500)
         val button = ObjectAnimator.ofFloat(binding.bvLogin, View.ALPHA, 1f).setDuration(500)
         val title = ObjectAnimator.ofFloat(binding.titleLogin, View.ALPHA, 1f).setDuration(500)
 
@@ -110,6 +119,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        if (isLoading) binding.progressBar.visibility = View.VISIBLE else binding.progressBar.visibility = View.GONE
+        if (isLoading) binding.progressBar.visibility =
+            View.VISIBLE else binding.progressBar.visibility = View.GONE
     }
 }
