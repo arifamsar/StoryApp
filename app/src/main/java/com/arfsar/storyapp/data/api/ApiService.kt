@@ -1,5 +1,6 @@
 package com.arfsar.storyapp.data.api
 
+import com.arfsar.storyapp.data.response.DetailResponse
 import com.arfsar.storyapp.data.response.LoginResponse
 import com.arfsar.storyapp.data.response.RegisterResponse
 import com.arfsar.storyapp.data.response.StoryResponse
@@ -7,6 +8,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
     @FormUrlEncoded
@@ -26,4 +28,9 @@ interface ApiService {
 
     @GET("stories")
     suspend fun getAllStories(): StoryResponse
+
+    @GET("stories/{id}")
+    suspend fun detailStory(
+        @Path("id") id: String
+    ): DetailResponse
 }

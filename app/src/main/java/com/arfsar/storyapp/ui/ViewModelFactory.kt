@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.arfsar.storyapp.data.repository.UserRepository
 import com.arfsar.storyapp.data.di.Injection
 import com.arfsar.storyapp.data.repository.StoryRepository
+import com.arfsar.storyapp.ui.detail.DetailStoryViewModel
 import com.arfsar.storyapp.ui.login.LoginViewModel
 import com.arfsar.storyapp.ui.main.MainViewModel
 import com.arfsar.storyapp.ui.signup.SignUpViewModel
@@ -27,6 +28,10 @@ class ViewModelFactory(
 
             modelClass.isAssignableFrom(SignUpViewModel::class.java) -> {
                 SignUpViewModel(userRepository) as T
+            }
+
+            modelClass.isAssignableFrom(DetailStoryViewModel::class.java) -> {
+                DetailStoryViewModel(storyRepository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

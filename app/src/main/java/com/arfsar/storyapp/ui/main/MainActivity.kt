@@ -3,6 +3,7 @@ package com.arfsar.storyapp.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,8 @@ import com.arfsar.storyapp.databinding.ActivityMainBinding
 import com.arfsar.storyapp.ui.AddStoryActivity
 import com.arfsar.storyapp.ui.ViewModelFactory
 import com.arfsar.storyapp.ui.adapter.StoryAdapter
+import com.arfsar.storyapp.ui.detail.DetailStoryActivity
+import com.arfsar.storyapp.ui.utils.Extra.EXTRA_DETAIL
 import com.arfsar.storyapp.ui.welcome.WelcomeActivity
 
 class MainActivity : AppCompatActivity() {
@@ -65,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             if (result != null) {
                 when (result) {
                     is ResultState.Loading -> {
-
+                        showLoading(true)
                     }
                     is ResultState.Success -> {
                         setupRecyclerView()
@@ -73,7 +76,8 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     is ResultState.Error -> {
-
+                        Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
+                        showLoading(false)
                     }
                 }
             }
@@ -90,10 +94,16 @@ class MainActivity : AppCompatActivity() {
 
         mAdapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
             override fun onItemClicked(data: ListStoryItem) {
-
+                getDetailStory(data)
             }
 
         })
+    }
+
+    private fun getDetailStory(storyItem: ListStoryItem) {
+        val intent = Intent(this, DetailStoryActivity::class.java)
+        intent.putExtra(EXTRA_DETAIL, storyItem.id)
+        startActivity(intent)
     }
 
     private fun setupViewModel(storyItem: List<ListStoryItem>) {
@@ -103,6 +113,10 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.rvListStory.visibility = View.INVISIBLE
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) binding.progressBar.visibility = View.VISIBLE else binding.progressBar.visibility = View.GONE
     }
 
 }

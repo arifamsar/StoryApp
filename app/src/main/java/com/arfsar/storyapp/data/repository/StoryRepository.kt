@@ -5,6 +5,7 @@ import com.arfsar.storyapp.data.ResultState
 import com.arfsar.storyapp.data.api.ApiConfig
 import com.arfsar.storyapp.data.api.ApiService
 import com.arfsar.storyapp.data.pref.UserPreference
+import com.arfsar.storyapp.data.response.DetailResponse
 import com.arfsar.storyapp.data.response.StoryResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.first
@@ -25,6 +26,22 @@ class StoryRepository private constructor(
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, StoryResponse::class.java)
+            errorBody?.message?.let {
+                ResultState.Error(it)
+            }?.let { emit(it) }
+        }
+    }
+
+    fun detailStories(id: String) = liveData {
+        emit(ResultState.Loading)
+        try {
+            val user = runBlocking { userPreference.getSession().first() }
+            val apiService = ApiConfig.getApiService(user.token)
+            val client = apiService.detailStory(id)
+            emit(ResultState.Success(client))
+        } catch (e: HttpException) {
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, DetailResponse::class.java)
             errorBody?.message?.let {
                 ResultState.Error(it)
             }?.let { emit(it) }
