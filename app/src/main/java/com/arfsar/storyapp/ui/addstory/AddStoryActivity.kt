@@ -1,6 +1,5 @@
 package com.arfsar.storyapp.ui.addstory
 
-import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -28,16 +27,6 @@ class AddStoryActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<AddStoryViewModel> {
         ViewModelFactory.getInstance(this)
-    }
-
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            Toast.makeText(this, "Permission request granted", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Permission request denied", Toast.LENGTH_SHORT).show()
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -128,7 +117,4 @@ class AddStoryActivity : AppCompatActivity() {
         if (isLoading) binding.progressBar.visibility = View.VISIBLE else binding.progressBar.visibility = View.GONE
     }
 
-    companion object {
-        private const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
-    }
 }
