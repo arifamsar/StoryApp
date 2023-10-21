@@ -66,6 +66,7 @@ class LoginActivity : AppCompatActivity() {
                             setMessage(result.data.message)
                             setPositiveButton("Next") { _, _, ->
                                 val intent = Intent(context, MainActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                 intent.putExtra(EXTRA_TOKEN, result.data.loginResult.token)
                                 startActivity(intent)
                                 finish()
