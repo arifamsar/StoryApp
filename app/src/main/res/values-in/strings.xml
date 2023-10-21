@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StoryApp</string>
+    <string name="content_description_media">Gambar dari list cerita</string>
+    <string name="title">Judul Story</string>
+    <string name="description">Deskripsi</string>
+    <string name="welcome_title">Selamat datang di Aplikasi Story</string>
+    <string name="description_welcome">Anda ingin membagikan cerita tentang teknologi? Anda wajib menggunakan Story App ini agar teman-teman kalian dapat melihat!</string>
+    <string name="register">Daftar</string>
+    <string name="login">Masuk</string>
+    <string name="name">Nama</string>
+    <string name="content_description_register">Gambar dari layout register</string>
+    <string name="email">Email</string>
+    <string name="title_signup">Isi data kamu terlebih dahulu</string>
+    <string name="password">Password</string>
+    <string name="content_description_login">Gambar layout dari Login</string>
+    <string name="title_login">Isi data akun kamu yang telah terdaftar dibawah ini</string>
+    <string name="content_description_welcome">Gambar dari layout Welcome Activity</string>
+    <string name="logout">Keluar</string>
+    <string name="content_description_fab">Tombol tambahkan cerita</string>
+    <string name="list_story">List Cerita</string>
+    <string name="camera_button">Kamera</string>
+    <string name="gallery_button">Galeri</string>
+    <string name="upload_button">Unggah</string>
+</resources>
