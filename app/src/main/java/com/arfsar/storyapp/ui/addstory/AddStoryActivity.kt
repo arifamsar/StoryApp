@@ -9,6 +9,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.arfsar.storyapp.databinding.ActivityAddStoryBinding
+import com.arfsar.storyapp.ui.utils.getImageUri
 
 class AddStoryActivity : AppCompatActivity() {
 
@@ -32,6 +33,7 @@ class AddStoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.galleryButton.setOnClickListener { selectImage()}
+        binding.cameraButton.setOnClickListener { startCamera() }
 
     }
 
@@ -54,6 +56,19 @@ class AddStoryActivity : AppCompatActivity() {
         currentImageUri?.let {
             Log.d("Image URI", "showImage: $it")
             binding.previewImageView.setImageURI(it)
+        }
+    }
+
+    private fun startCamera() {
+        currentImageUri = getImageUri(this)
+        launcherIntentCamera.launch(currentImageUri)
+    }
+
+    private val launcherIntentCamera = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { isSuccess ->
+        if (isSuccess) {
+            showImage()
         }
     }
 
