@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.arfsar.storyapp.data.response.ListStoryItem
 import com.arfsar.storyapp.databinding.CardStoryBinding
-import com.bumptech.glide.Glide
+import com.arfsar.storyapp.ui.utils.loadImage
 
 class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
@@ -16,12 +16,11 @@ class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_
     class MyViewHolder(private val binding: CardStoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(stories: ListStoryItem) {
-            binding.tvTitle.text = stories.name
-            binding.tvDescription.text = stories.description
-            Glide.with(itemView.context)
-                .load(stories.photoUrl)
-                .skipMemoryCache(true)
-                .into(binding.ivStory)
+            with(binding) {
+                tvTitle.text = stories.name
+                tvDescription.text = stories.description
+                ivStory.loadImage(stories.photoUrl)
+            }
         }
     }
 

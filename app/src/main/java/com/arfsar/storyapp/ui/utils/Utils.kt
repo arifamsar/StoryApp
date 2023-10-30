@@ -8,8 +8,10 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.widget.ImageView
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
+import com.bumptech.glide.Glide
 import com.loopj.android.http.BuildConfig
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -109,6 +111,13 @@ fun rotateImage(source: Bitmap, angle: Float): Bitmap {
         source, 0, 0, source.width, source.height,
         matrix, true
     )
+}
+
+fun ImageView.loadImage(url: String) {
+    Glide.with(this.context)
+        .load(url)
+        .skipMemoryCache(true)
+        .into(this)
 }
 
 object Extra {

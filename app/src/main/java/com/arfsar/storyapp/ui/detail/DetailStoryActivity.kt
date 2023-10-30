@@ -10,7 +10,7 @@ import com.arfsar.storyapp.data.response.Story
 import com.arfsar.storyapp.databinding.ActivityDetailStoryBinding
 import com.arfsar.storyapp.ui.ViewModelFactory
 import com.arfsar.storyapp.ui.utils.Extra.EXTRA_DETAIL
-import com.bumptech.glide.Glide
+import com.arfsar.storyapp.ui.utils.loadImage
 
 class DetailStoryActivity : AppCompatActivity() {
 
@@ -49,10 +49,7 @@ class DetailStoryActivity : AppCompatActivity() {
 
     private fun getViewModel(story: Story) {
         with(binding) {
-            Glide.with(this@DetailStoryActivity)
-                .load(story.photoUrl)
-                .skipMemoryCache(true)
-                .into(ivDetail)
+            ivDetail.loadImage(story.photoUrl)
             tvTitle.text = story.name
             tvDescription.text = story.description
         }

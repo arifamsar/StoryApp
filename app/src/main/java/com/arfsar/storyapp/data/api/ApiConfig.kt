@@ -1,6 +1,5 @@
 package com.arfsar.storyapp.data.api
 
-import com.loopj.android.http.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

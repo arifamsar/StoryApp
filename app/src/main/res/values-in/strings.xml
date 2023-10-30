@@ -26,4 +26,14 @@
     <string name="story_empty">Story tidak jumpa</string>
     <string name="logout_reminder">Apakah kamu yakin untuk keluar?</string>
     <string name="cancel">Tidak</string>
+    <string name="password_warn">"Password tidak boleh kurang dari 8 karakter"</string>
+    <string name="email_warn">Format Email Salah</string>
+    <string name="input_email">Masukkan Email Kamu</string>
+    <string name="input_name">Masukkan Nama Kamu</string>
+    <string name="input_password">Masukkan Password Kamu</string>
+    <string name="name_error">Nama tidak boleh kosong</string>
+    <string name="email_error">Email tidak boleh kosong</string>
+    <string name="password_error">Password tidak boleh kosong</string>
+    <string name="success">Selamat!</string>
+    <string name="next">Lanjut</string>
 </resources>

@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
+import com.arfsar.storyapp.R
 
 class NameEditText : AppCompatEditText {
 
@@ -28,7 +29,7 @@ class NameEditText : AppCompatEditText {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        hint = "Input your name"
+        hint = context.getString(R.string.input_name)
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
     }
 

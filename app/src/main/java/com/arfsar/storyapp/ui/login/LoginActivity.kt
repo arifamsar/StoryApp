@@ -5,9 +5,11 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.arfsar.storyapp.R
 import com.arfsar.storyapp.data.ResultState
 import com.arfsar.storyapp.data.pref.UserModel
 import com.arfsar.storyapp.databinding.ActivityLoginBinding
@@ -38,13 +40,13 @@ class LoginActivity : AppCompatActivity() {
 
             when {
                 email.isEmpty() -> {
-                    binding.emailEditText.error = "Email can't be empty"
+                    binding.emailEditText.error = getString(R.string.email_error)
                     binding.emailEditText.requestFocus()
                     return@setOnClickListener
                 }
 
                 password.isEmpty() -> {
-                    binding.passwordEditText.error = "Password can't be empty"
+                    binding.passwordEditText.error = getString(R.string.password_error)
                     binding.passwordEditText.requestFocus()
                     return@setOnClickListener
                 }
@@ -66,9 +68,9 @@ class LoginActivity : AppCompatActivity() {
                         viewModel.saveSessionToken(UserModel(email, result.data.loginResult.token))
                         showLoading(false)
                         AlertDialog.Builder(this).apply {
-                            setTitle("Congrats!")
+                            setTitle(getString(R.string.success))
                             setMessage(result.data.message)
-                            setPositiveButton("Next") { _, _ ->
+                            setPositiveButton(getString(R.string.next)) { _, _ ->
                                 val intent = Intent(context, MainActivity::class.java)
                                 intent.flags =
                                     Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -82,6 +84,7 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                     is ResultState.Error -> {
+                        Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
                         showLoading(false)
                     }
                 }

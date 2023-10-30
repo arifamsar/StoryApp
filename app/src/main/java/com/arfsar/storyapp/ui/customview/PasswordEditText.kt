@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
+import com.arfsar.storyapp.R
 
 class PasswordEditText : AppCompatEditText {
 
@@ -28,7 +29,7 @@ class PasswordEditText : AppCompatEditText {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        hint = "Input Your Password"
+        hint = context.getString(R.string.input_password)
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
     }
 
@@ -41,7 +42,7 @@ class PasswordEditText : AppCompatEditText {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.toString().length < 8) {
-                    setError("Password cannot be less than 8 characters", null)
+                    setError(context.getString(R.string.password_warn), null)
                 } else {
                     error = null
                 }

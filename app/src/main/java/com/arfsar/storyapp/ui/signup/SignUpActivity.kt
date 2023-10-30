@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.arfsar.storyapp.R
 import com.arfsar.storyapp.data.ResultState
 import com.arfsar.storyapp.databinding.ActivitySignUpBinding
 import com.arfsar.storyapp.ui.ViewModelFactory
@@ -39,19 +40,19 @@ class SignUpActivity : AppCompatActivity() {
 
             when {
                 name.isEmpty() -> {
-                    binding.nameEditText.error = "Name can't be empty"
+                    binding.nameEditText.error = getString(R.string.name_error)
                     binding.nameEditText.requestFocus()
                     return@setOnClickListener
                 }
 
                 email.isEmpty() -> {
-                    binding.emailEditText.error = "Email can't be empty"
+                    binding.emailEditText.error = getString(R.string.email_error)
                     binding.emailEditText.requestFocus()
                     return@setOnClickListener
                 }
 
                 password.isEmpty() -> {
-                    binding.passwordEditText.error = "Password can't be empty"
+                    binding.passwordEditText.error = getString(R.string.password_error)
                     binding.passwordEditText.requestFocus()
                     return@setOnClickListener
                 }
