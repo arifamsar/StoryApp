@@ -3,6 +3,7 @@ package com.arfsar.storyapp.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import com.arfsar.storyapp.R
 import com.arfsar.storyapp.data.response.ListStoryItem
 import com.arfsar.storyapp.databinding.ActivityMainBinding
 import com.arfsar.storyapp.ui.ViewModelFactory
+import com.arfsar.storyapp.ui.adapter.LoadingStateAdapter
 import com.arfsar.storyapp.ui.adapter.StoryAdapter
 import com.arfsar.storyapp.ui.addstory.AddStoryActivity
 import com.arfsar.storyapp.ui.detail.DetailStoryActivity
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, AddStoryActivity::class.java))
         }
 
+        setupRecyclerView()
     }
 
     override fun onResume() {
@@ -55,8 +58,14 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
             } else {
-                viewModel.stories.observe(this) {
-                    getDataStories()
+                viewModel.stories.observe(this) { data ->
+                    if (data != null) {
+                        getDataStories()
+                        showLoading(false)
+                    } else {
+                        showLoading(true)
+                        Toast.makeText(this, getString(R.string.story_empty), Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -112,9 +121,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getDataStories() {
-        setupRecyclerView()
-        viewModel.stories.observe(this) { result ->
-            mAdapter.submitData(lifecycle, result)
+//
+//        mAdapter.withLoadStateFooter(
+//            footer = LoadingStateAdapter {
+//                mAdapter.retry()
+//            }
+//        )
+        binding.rvListStory.adapter = mAdapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                mAdapter.retry()
+            }
+        )
+
+        viewModel.stories.observe(this) {
+            mAdapter.submitData(lifecycle, it)
         }
     }
 
