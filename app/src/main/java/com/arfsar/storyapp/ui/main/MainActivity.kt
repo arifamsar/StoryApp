@@ -17,6 +17,7 @@ import com.arfsar.storyapp.ui.ViewModelFactory
 import com.arfsar.storyapp.ui.adapter.StoryAdapter
 import com.arfsar.storyapp.ui.addstory.AddStoryActivity
 import com.arfsar.storyapp.ui.detail.DetailStoryActivity
+import com.arfsar.storyapp.ui.map.MapsActivity
 import com.arfsar.storyapp.ui.utils.Extra.EXTRA_DETAIL
 import com.arfsar.storyapp.ui.welcome.WelcomeActivity
 
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         loginCheck()
-        logout()
+        optionMenu()
 
         binding.fabAddStory.setOnClickListener {
             startActivity(Intent(this, AddStoryActivity::class.java))
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun logout() {
+    private fun optionMenu() {
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.logOut -> {
@@ -77,6 +78,10 @@ class MainActivity : AppCompatActivity() {
                         create()
                         show()
                     }
+                    true
+                }
+                R.id.mapActivity -> {
+                    startActivity(Intent(this, MapsActivity::class.java))
                     true
                 }
 

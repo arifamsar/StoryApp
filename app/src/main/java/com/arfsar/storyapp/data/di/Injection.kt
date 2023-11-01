@@ -5,6 +5,7 @@ import com.arfsar.storyapp.data.repository.UserRepository
 import com.arfsar.storyapp.data.api.ApiConfig
 import com.arfsar.storyapp.data.pref.UserPreference
 import com.arfsar.storyapp.data.pref.dataStore
+import com.arfsar.storyapp.data.repository.MapsRepository
 import com.arfsar.storyapp.data.repository.StoryRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -21,6 +22,11 @@ object Injection {
     fun provideStoryRepository(context: Context) : StoryRepository {
         val userPref = UserPreference.getInstance(context.dataStore)
         return StoryRepository.getInstance(userPref)
+    }
+
+    fun provideMapRepository(context: Context) : MapsRepository {
+        val userPref = UserPreference.getInstance(context.dataStore)
+        return MapsRepository.getInstance(userPref)
     }
 
 }

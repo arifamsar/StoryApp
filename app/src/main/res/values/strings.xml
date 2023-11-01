@@ -35,5 +35,11 @@
     <string name="password_error">Password can not be empty</string>
     <string name="success">Congrats!</string>
     <string name="next">Next</string>
+    <string name="map">map</string>
+    <string name="title_activity_maps">Maps</string>
+    <string name="normal_type">Normal</string>
+    <string name="satellite_type">Satellite</string>
+    <string name="terrain_type">Terrain</string>
+    <string name="hybrid_type">Hybrid</string>
 
 </resources>

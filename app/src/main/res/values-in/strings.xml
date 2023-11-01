@@ -36,4 +36,10 @@
     <string name="password_error">Password tidak boleh kosong</string>
     <string name="success">Selamat!</string>
     <string name="next">Lanjut</string>
+    <string name="map">map</string>
+    <string name="title_activity_maps">Peta</string>
+    <string name="normal_type">Normal</string>
+    <string name="satellite_type">Satelit</string>
+    <string name="terrain_type">Terrain</string>
+    <string name="hybrid_type">Hybrid</string>
 </resources>

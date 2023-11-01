@@ -28,14 +28,12 @@ data class ListStoryItem(
     @field:SerializedName("id")
     val id: String,
 
-    // for story sub part 2
+    @field:SerializedName("lat")
+    val lat: Double,
 
-    //	@field:SerializedName("lat")
-    //	val lat: Any
+    @field:SerializedName("createdAt")
+    val createdAt: String,
 
-    //	@field:SerializedName("createdAt")
-    //	val createdAt: String,
-
-    //	@field:SerializedName("lon")
-    //	val lon: Any,
+    @field:SerializedName("lon")
+    val lon: Double,
 )

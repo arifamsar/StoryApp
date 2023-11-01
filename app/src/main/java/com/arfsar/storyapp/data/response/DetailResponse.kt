@@ -26,14 +26,14 @@ data class Story(
 	val description: String,
 
 	@field:SerializedName("id")
-	val id: String
+	val id: String,
 
-//	@field:SerializedName("createdAt")
-//	val createdAt: String,
+	@field:SerializedName("createdAt")
+	val createdAt: String,
 
-//	@field:SerializedName("lon")
-//	val lon: Any,
-//
-//	@field:SerializedName("lat")
-//	val lat: Any
+	@field:SerializedName("lon")
+	val lon: Double,
+
+	@field:SerializedName("lat")
+	val lat: Double
 )

@@ -5,17 +5,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.arfsar.storyapp.data.repository.UserRepository
 import com.arfsar.storyapp.data.di.Injection
+import com.arfsar.storyapp.data.repository.MapsRepository
 import com.arfsar.storyapp.data.repository.StoryRepository
 import com.arfsar.storyapp.ui.addstory.AddStoryViewModel
 import com.arfsar.storyapp.ui.detail.DetailStoryViewModel
 import com.arfsar.storyapp.ui.login.LoginViewModel
 import com.arfsar.storyapp.ui.main.MainViewModel
+import com.arfsar.storyapp.ui.map.MapsViewModel
 import com.arfsar.storyapp.ui.signup.SignUpViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory(
     private val userRepository: UserRepository,
-    private val storyRepository: StoryRepository
+    private val storyRepository: StoryRepository,
+    private val mapsRepository: MapsRepository
 ) : ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
@@ -39,6 +42,10 @@ class ViewModelFactory(
                 AddStoryViewModel(storyRepository) as T
             }
 
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(mapsRepository) as T
+            }
+
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
@@ -52,7 +59,8 @@ class ViewModelFactory(
             INSTANCE ?: synchronized(this) {
                 INSTANCE ?: ViewModelFactory(
                     Injection.provideRepository(context),
-                    Injection.provideStoryRepository(context)
+                    Injection.provideStoryRepository(context),
+                    Injection.provideMapRepository(context)
                 )
             }.also {
                 INSTANCE = it

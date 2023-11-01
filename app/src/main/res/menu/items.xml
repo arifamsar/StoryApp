@@ -4,5 +4,9 @@
     <item android:id="@+id/logOut"
         android:icon="@drawable/baseline_logout"
         android:title="@string/logout"
+        app:showAsAction="never"/>
+    <item android:id="@+id/mapActivity"
+        android:icon="@drawable/baseline_map"
+        android:title="@string/map"
         app:showAsAction="ifRoom"/>
 </menu>
