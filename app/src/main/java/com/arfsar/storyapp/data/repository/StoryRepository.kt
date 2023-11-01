@@ -26,21 +26,6 @@ import java.io.File
 class StoryRepository private constructor(
     private val userPreference: UserPreference
 ) {
-//    fun getAllStories() = liveData {
-//        emit(ResultState.Loading)
-//        try {
-//            val user = runBlocking { userPreference.getSession().first() }
-//            val apiService = ApiConfig.getApiService(user.token)
-//            val client = apiService.getAllStories()
-//            emit(ResultState.Success(client))
-//        } catch (e: HttpException) {
-//            val jsonInString = e.response()?.errorBody()?.string()
-//            val errorBody = Gson().fromJson(jsonInString, StoryResponse::class.java)
-//            errorBody?.message?.let {
-//                ResultState.Error(it)
-//            }?.let { emit(it) }
-//        }
-//    }
 
     fun getStories(): LiveData<PagingData<ListStoryItem>> {
         return Pager(

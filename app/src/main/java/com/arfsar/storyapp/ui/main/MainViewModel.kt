@@ -26,7 +26,5 @@ class MainViewModel(
         }
     }
 
-//    fun getStories() = storyRepository.getAllStories()
-
     val stories: LiveData<PagingData<ListStoryItem>> = storyRepository.getStories().cachedIn(viewModelScope)
 }

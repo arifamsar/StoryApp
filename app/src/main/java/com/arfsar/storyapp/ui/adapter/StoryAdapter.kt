@@ -47,9 +47,7 @@ class StoryAdapter : PagingDataAdapter<ListStoryItem, StoryAdapter.MyViewHolder>
                 )
             } }
         }
-//        holder.bind(listStories)
-//        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(getItem(position)) }
-    }
+  }
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListStoryItem>() {
