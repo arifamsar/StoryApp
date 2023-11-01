@@ -3,14 +3,12 @@ package com.arfsar.storyapp.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arfsar.storyapp.R
-import com.arfsar.storyapp.data.ResultState
 import com.arfsar.storyapp.data.response.ListStoryItem
 import com.arfsar.storyapp.databinding.ActivityMainBinding
 import com.arfsar.storyapp.ui.ViewModelFactory
@@ -43,11 +41,12 @@ class MainActivity : AppCompatActivity() {
         binding.fabAddStory.setOnClickListener {
             startActivity(Intent(this, AddStoryActivity::class.java))
         }
+
     }
 
     override fun onResume() {
         super.onResume()
-        getStories()
+        getDataStories()
     }
 
     private fun loginCheck() {
@@ -56,8 +55,9 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
             } else {
-                getStories()
-
+                viewModel.stories.observe(this) {
+                    getDataStories()
+                }
             }
         }
     }
@@ -90,31 +90,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getStories() {
-        viewModel.getStories().observe(this) { result ->
-            if (result != null) {
-                when (result) {
-                    is ResultState.Loading -> {
-                        showLoading(true)
-                    }
-
-                    is ResultState.Success -> {
-                        setupRecyclerView()
-                        setupViewModel(result.data.listStory)
-                        showLoading(false)
-                    }
-
-                    is ResultState.Error -> {
-                        Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
-                        showLoading(false)
-                    }
-                }
-            } else {
-                Toast.makeText(this, getString(R.string.story_empty), Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
     private fun setupRecyclerView() {
         val mLayoutManager = LinearLayoutManager(this)
         binding.rvListStory.apply {
@@ -127,7 +102,6 @@ class MainActivity : AppCompatActivity() {
             override fun onItemClicked(data: ListStoryItem) {
                 getDetailStory(data)
             }
-
         })
     }
 
@@ -137,12 +111,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun setupViewModel(storyItem: List<ListStoryItem>) {
-        if (storyItem.isNotEmpty()) {
-            binding.rvListStory.visibility = View.VISIBLE
-            mAdapter.submitList(storyItem)
-        } else {
-            binding.rvListStory.visibility = View.INVISIBLE
+    private fun getDataStories() {
+        setupRecyclerView()
+        viewModel.stories.observe(this) { result ->
+            mAdapter.submitData(lifecycle, result)
         }
     }
 

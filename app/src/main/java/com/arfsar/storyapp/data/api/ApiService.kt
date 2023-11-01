@@ -32,8 +32,8 @@ interface ApiService {
         @Field("password") password: String
     ): LoginResponse
 
-    @GET("stories")
-    suspend fun getAllStories(): StoryResponse
+//    @GET("stories")
+//    suspend fun getAllStories(): StoryResponse
 
     @GET("stories/{id}")
     suspend fun detailStory(
@@ -50,5 +50,11 @@ interface ApiService {
     @GET("stories")
     suspend fun getStoriesWithLocation(
         @Query("location") location : Int = 1,
+    ): StoryResponse
+
+    @GET("stories")
+    suspend fun getStories(
+        @Query("page") page: Int = 1,
+        @Query("size") size: Int = 20
     ): StoryResponse
 }

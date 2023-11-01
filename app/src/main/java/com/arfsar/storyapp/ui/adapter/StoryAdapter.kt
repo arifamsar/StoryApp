@@ -2,14 +2,14 @@ package com.arfsar.storyapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.arfsar.storyapp.data.response.ListStoryItem
 import com.arfsar.storyapp.databinding.CardStoryBinding
 import com.arfsar.storyapp.ui.utils.loadImage
 
-class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class StoryAdapter : PagingDataAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -39,8 +39,16 @@ class StoryAdapter : ListAdapter<ListStoryItem, StoryAdapter.MyViewHolder>(DIFF_
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val listStories = getItem(position)
-        holder.bind(listStories)
-        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(getItem(position)) }
+        if (listStories != null) {
+            holder.bind(listStories)
+            holder.itemView.setOnClickListener { getItem(position)?.let {
+                onItemClickCallback.onItemClicked(
+                    it
+                )
+            } }
+        }
+//        holder.bind(listStories)
+//        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(getItem(position)) }
     }
 
     companion object {
