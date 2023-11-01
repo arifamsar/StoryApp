@@ -59,6 +59,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_descriptionWelcome"
+        app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
         tools:alpha="100" />
 
     <Button
@@ -73,6 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/tv_descriptionWelcome"
+        app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
         tools:alpha="100" />
 
     <androidx.constraintlayout.widget.Guideline
