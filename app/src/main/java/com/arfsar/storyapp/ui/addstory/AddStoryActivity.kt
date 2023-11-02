@@ -1,6 +1,9 @@
 package com.arfsar.storyapp.ui.addstory
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.arfsar.storyapp.R
 import com.arfsar.storyapp.data.ResultState
 import com.arfsar.storyapp.databinding.ActivityAddStoryBinding
@@ -19,6 +23,9 @@ import com.arfsar.storyapp.ui.main.MainActivity
 import com.arfsar.storyapp.ui.utils.getImageUri
 import com.arfsar.storyapp.ui.utils.reduceFileImage
 import com.arfsar.storyapp.ui.utils.uriToFile
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 
 class AddStoryActivity : AppCompatActivity() {
 
@@ -30,6 +37,8 @@ class AddStoryActivity : AppCompatActivity() {
         ViewModelFactory.getInstance(this)
     }
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
@@ -37,7 +46,27 @@ class AddStoryActivity : AppCompatActivity() {
 
         binding.galleryButton.setOnClickListener { selectImage() }
         binding.cameraButton.setOnClickListener { startCamera() }
-        binding.uploadButton.setOnClickListener { uploadStory() }
+        binding.uploadButton.setOnClickListener {
+            if (binding.checkboxLocation.isChecked) {
+                getMyLastLocation()
+            } else {
+                uploadStory(null, null)
+            }
+        }
+
+        binding.checkboxLocation.setOnClickListener {
+            if (!checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) && !checkPermission(
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            ) {
+                requestPermissionLauncher.launch(
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                    )
+                )
+            }
+        }
 
     }
 
@@ -76,14 +105,14 @@ class AddStoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadStory() {
+    private fun uploadStory(lat: Double?, lon: Double?) {
         currentImageUri?.let { uri ->
             val fileImage = uriToFile(uri, this).reduceFileImage()
             val description = binding.editTextDescription.text.toString()
 
             showLoading(true)
 
-            viewModel.uploadStory(fileImage, description).observe(this) { result ->
+            viewModel.uploadStory(fileImage, description, lat, lon).observe(this) { result ->
                 if (result != null) {
                     when (result) {
                         is ResultState.Loading -> {
@@ -116,6 +145,56 @@ class AddStoryActivity : AppCompatActivity() {
             }
         } ?: Toast.makeText(this, getString(R.string.empty_image_warning), Toast.LENGTH_SHORT)
             .show()
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    getMyLastLocation()
+                }
+
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    getMyLastLocation()
+                }
+
+                else -> {
+                    // No Location Acess Granted
+                }
+            }
+        }
+
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun getMyLastLocation() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) && checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    val latLng = LatLng(location.latitude, location.longitude)
+                    uploadStory(latLng.latitude, latLng.longitude)
+
+                } else {
+                    Toast.makeText(this, getString(R.string.loc_not_found), Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                )
+            )
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {

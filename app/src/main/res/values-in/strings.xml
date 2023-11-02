@@ -43,4 +43,8 @@
     <string name="terrain_type">Terrain</string>
     <string name="hybrid_type">Hybrid</string>
     <string name="retry">Coba lagi</string>
+    <string name="preview_image_illustration">Ilustrasi Gambar Preview</string>
+    <string name="checkLocation">Hidupkan Lokasi</string>
+    <string name="loc_not_found">Lokasi tidak dijumpai. Coba lagi</string>
+    <string name="loc_found">Jumpa Lokasi</string>
 </resources>

@@ -17,7 +17,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_place_holder" />
+        app:srcCompat="@drawable/ic_place_holder"
+        android:contentDescription="@string/preview_image_illustration" />
 
     <Button
         android:id="@+id/cameraButton"
@@ -69,7 +70,7 @@
         android:layout_marginTop="60dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@id/uploadButton"
+        app:layout_constraintBottom_toTopOf="@id/checkboxLocation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal">
@@ -82,6 +83,18 @@
             android:hint="@string/description"
             android:inputType="text|textMultiLine" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <CheckBox
+        android:id="@+id/checkboxLocation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/checkLocation"
+        app:layout_constraintBottom_toTopOf="@+id/uploadButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/uploadButton"
