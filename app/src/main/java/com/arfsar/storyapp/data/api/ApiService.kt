@@ -1,10 +1,10 @@
 package com.arfsar.storyapp.data.api
 
 import com.arfsar.storyapp.data.response.DetailResponse
-import com.arfsar.storyapp.data.response.StoryUploadResponse
 import com.arfsar.storyapp.data.response.LoginResponse
 import com.arfsar.storyapp.data.response.RegisterResponse
 import com.arfsar.storyapp.data.response.StoryResponse
+import com.arfsar.storyapp.data.response.StoryUploadResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Field

@@ -3,6 +3,7 @@ package com.arfsar.storyapp.data.di
 import android.content.Context
 import com.arfsar.storyapp.data.repository.UserRepository
 import com.arfsar.storyapp.data.api.ApiConfig
+import com.arfsar.storyapp.data.database.StoryDatabase
 import com.arfsar.storyapp.data.pref.UserPreference
 import com.arfsar.storyapp.data.pref.dataStore
 import com.arfsar.storyapp.data.repository.MapsRepository
@@ -21,7 +22,8 @@ object Injection {
 
     fun provideStoryRepository(context: Context) : StoryRepository {
         val userPref = UserPreference.getInstance(context.dataStore)
-        return StoryRepository.getInstance(userPref)
+        val storyDatabase = StoryDatabase.getDatabase(context)
+        return StoryRepository.getInstance(userPref, storyDatabase)
     }
 
     fun provideMapRepository(context: Context) : MapsRepository {

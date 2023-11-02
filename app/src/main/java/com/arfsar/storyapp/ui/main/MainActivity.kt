@@ -3,14 +3,13 @@ package com.arfsar.storyapp.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arfsar.storyapp.R
-import com.arfsar.storyapp.data.response.ListStoryItem
+import com.arfsar.storyapp.data.entities.ListStoryEntity
 import com.arfsar.storyapp.databinding.ActivityMainBinding
 import com.arfsar.storyapp.ui.ViewModelFactory
 import com.arfsar.storyapp.ui.adapter.LoadingStateAdapter
@@ -37,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupRecyclerView()
         loginCheck()
         optionMenu()
 
@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, AddStoryActivity::class.java))
         }
 
-        setupRecyclerView()
     }
 
     override fun onResume() {
@@ -58,15 +57,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
             } else {
-                viewModel.stories.observe(this) { data ->
-                    if (data != null) {
-                        getDataStories()
-                        showLoading(false)
-                    } else {
-                        showLoading(true)
-                        Toast.makeText(this, getString(R.string.story_empty), Toast.LENGTH_SHORT).show()
-                    }
-                }
+                getDataStories()
             }
         }
     }
@@ -89,6 +80,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     true
                 }
+
                 R.id.mapActivity -> {
                     startActivity(Intent(this, MapsActivity::class.java))
                     true
@@ -108,25 +100,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         mAdapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: ListStoryItem) {
+            override fun onItemClicked(data: ListStoryEntity) {
                 getDetailStory(data)
             }
         })
     }
 
-    private fun getDetailStory(storyItem: ListStoryItem) {
+    private fun getDetailStory(storyItem: ListStoryEntity) {
         val intent = Intent(this, DetailStoryActivity::class.java)
         intent.putExtra(EXTRA_DETAIL, storyItem.id)
         startActivity(intent)
     }
 
     private fun getDataStories() {
-//
-//        mAdapter.withLoadStateFooter(
-//            footer = LoadingStateAdapter {
-//                mAdapter.retry()
-//            }
-//        )
+
         binding.rvListStory.adapter = mAdapter.withLoadStateFooter(
             footer = LoadingStateAdapter {
                 mAdapter.retry()

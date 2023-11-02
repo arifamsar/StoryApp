@@ -6,10 +6,10 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.arfsar.storyapp.data.entities.ListStoryEntity
 import com.arfsar.storyapp.data.pref.UserModel
 import com.arfsar.storyapp.data.repository.StoryRepository
 import com.arfsar.storyapp.data.repository.UserRepository
-import com.arfsar.storyapp.data.response.ListStoryItem
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -26,5 +26,5 @@ class MainViewModel(
         }
     }
 
-    val stories: LiveData<PagingData<ListStoryItem>> = storyRepository.getStories().cachedIn(viewModelScope)
+    val stories: LiveData<PagingData<ListStoryEntity>> = storyRepository.getStories().cachedIn(viewModelScope)
 }
