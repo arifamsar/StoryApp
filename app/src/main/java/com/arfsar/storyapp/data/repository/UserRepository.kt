@@ -9,6 +9,7 @@ import com.arfsar.storyapp.data.pref.UserPreference
 import com.arfsar.storyapp.data.response.ErrorResponse
 import com.arfsar.storyapp.data.response.LoginResponse
 import com.arfsar.storyapp.data.response.RegisterResponse
+import com.arfsar.storyapp.helper.wrapEspressoIdlingResource
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import retrofit2.HttpException
@@ -40,16 +41,19 @@ class UserRepository private constructor(
         password: String
     ) = liveData {
         emit(ResultState.Loading)
-        try {
-            val client = apiService.loginUser(email, password)
-            emit(ResultState.Success(client))
-        } catch (e: HttpException) {
-            val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, LoginResponse::class.java)
-            errorBody.message.let {
-                ResultState.Error(it)
-            }.let { emit(it) }
+        wrapEspressoIdlingResource {
+            try {
+                val client = apiService.loginUser(email, password)
+                emit(ResultState.Success(client))
+            } catch (e: HttpException) {
+                val jsonInString = e.response()?.errorBody()?.string()
+                val errorBody = Gson().fromJson(jsonInString, LoginResponse::class.java)
+                errorBody.message.let {
+                    ResultState.Error(it)
+                }.let { emit(it) }
+            }
         }
+
     }
 
     suspend fun saveSession(user: UserModel) {

@@ -43,19 +43,25 @@ class EmailEditText : AppCompatEditText {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                validateEmail(s.toString())
+
             }
 
             override fun afterTextChanged(s: Editable?) {
+                validateEmail(s.toString())
             }
 
         })
     }
 
-    private fun validateEmail(email: String) {
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+    private fun validateEmail(email: String): Boolean {
+        return if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            error = null
+            isError = false
+            true
+        } else {
+            setError(context.getString(R.string.email_warn), null)
             isError = true
-            error = context.getString(R.string.email_warn)
+            false
         }
     }
 

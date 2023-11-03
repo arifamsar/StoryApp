@@ -15,6 +15,7 @@ import com.arfsar.storyapp.data.entities.ListStoryEntity
 import com.arfsar.storyapp.data.pref.UserPreference
 import com.arfsar.storyapp.data.response.DetailResponse
 import com.arfsar.storyapp.data.response.StoryUploadResponse
+import com.arfsar.storyapp.helper.wrapEspressoIdlingResource
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -32,16 +33,17 @@ class StoryRepository private constructor(
 
     fun getStories(): LiveData<PagingData<ListStoryEntity>> {
         @OptIn(ExperimentalPagingApi::class)
-        return Pager(
-            config = PagingConfig(
-                pageSize = 5
-            ),
-            remoteMediator = StoryRemoteMediator(userPreference, storyDatabase),
-            pagingSourceFactory = {
-//                StoriesPagingSource(userPreference)
-                storyDatabase.storyDao().getAllStories()
-            }
-        ).liveData
+        wrapEspressoIdlingResource {
+            return Pager(
+                config = PagingConfig(
+                    pageSize = 5
+                ),
+                remoteMediator = StoryRemoteMediator(userPreference, storyDatabase),
+                pagingSourceFactory = {
+                    storyDatabase.storyDao().getAllStories()
+                }
+            ).liveData
+        }
     }
 
     fun detailStories(id: String) = liveData {
@@ -62,24 +64,26 @@ class StoryRepository private constructor(
 
     fun uploadStory(imageFile: File, description: String, lat: Double?, lon: Double?) = liveData {
         emit(ResultState.Loading)
-        val requestBody = description.toRequestBody("text/plain".toMediaType())
-        val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
-        val multipartBody = MultipartBody.Part.createFormData(
-            "photo",
-            imageFile.name,
-            requestImageFile
-        )
-        try {
-            val user = runBlocking { userPreference.getSession().first() }
-            val apiService = ApiConfig.getApiService(user.token)
-            val successResponse = apiService.uploadStory(multipartBody, requestBody, lat, lon)
-            emit(ResultState.Success(successResponse))
-        } catch (e: HttpException) {
-            val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, StoryUploadResponse::class.java)
-            errorBody?.message?.let {
-                ResultState.Error(it)
-            }?.let { emit(it) }
+        wrapEspressoIdlingResource {
+            val requestBody = description.toRequestBody("text/plain".toMediaType())
+            val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
+            val multipartBody = MultipartBody.Part.createFormData(
+                "photo",
+                imageFile.name,
+                requestImageFile
+            )
+            try {
+                val user = runBlocking { userPreference.getSession().first() }
+                val apiService = ApiConfig.getApiService(user.token)
+                val successResponse = apiService.uploadStory(multipartBody, requestBody, lat, lon)
+                emit(ResultState.Success(successResponse))
+            } catch (e: HttpException) {
+                val jsonInString = e.response()?.errorBody()?.string()
+                val errorBody = Gson().fromJson(jsonInString, StoryUploadResponse::class.java)
+                errorBody?.message?.let {
+                    ResultState.Error(it)
+                }?.let { emit(it) }
+            }
         }
     }
 
