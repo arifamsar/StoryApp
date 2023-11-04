@@ -1,4 +1,4 @@
-# Story Applicaton
+# Story Application
 This is a repository of my story app for dicoding submission first and last, feel free to use it as reference. 
 
 ## Disclaimer
